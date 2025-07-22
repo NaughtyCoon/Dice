@@ -19,7 +19,7 @@ public class Player {
         rollsHistory.add(dice.throwMe());
     }
 
-    public List<Integer> getRollsHistory() {
+    public List<Integer> getRollHistory() {
         return rollsHistory;
     }
 

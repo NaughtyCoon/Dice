@@ -1,5 +1,7 @@
 package org.example;
 
+import org.jooq.lambda.Seq;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -71,33 +73,51 @@ public class DiceTournamentAnalyzer {
 
     }
 
+    /**
+     *
+     * @param list коллекция игроков класса Player
+     * @return возвращает список игроков, которым 8 или более раз удалось получить значение
+     * кубика 4 или больше.
+     */
     public List<Player> getStablePlayerList(List<Player> list) {
         return
                 list.stream()
-                        .filter(player -> player.getRollsHistory().stream()
+                        .filter(player -> player.getRollHistory().stream()
                                 .filter(e -> e >= 4)
                                 .count() >= 8)
                         .toList();
     }
 
+    public List<Player> getRiskyPlayerList(List<Player> list) {
+        return Seq.seq(list)
+                .filter(player -> Seq.seq(player.getRollHistory())
+                        .window(2)
+                        .anyMatch(window -> window.v1 == 1 && window.v2 == 1)
+                )
+                .toList();
+    }
+
+    // Служебный метод. Определяет среднее значение из всех бросков кубика для конкретного игрока.
     private double playerAverageScore(Player player) {
 
-        if (player.getRollsHistory().isEmpty()) {
+        if (player.getRollHistory().isEmpty()) {
             return 0.0;
         }
 
         return
-                player.getRollsHistory().stream()
+                player.getRollHistory().stream()
                         .mapToInt(Integer::intValue)
                         .average()
                         .orElse(0.0);
 
     }
 
+    // Служебный метод. Определяет количество выпадения определённого значения кубика
+    // для заданного игрока
     private boolean evaluateFate(Player player, int value, int quantity) {
 
         return
-                player.getRollsHistory().stream()
+                player.getRollHistory().stream()
                         .filter(e -> e == value)
                         .count() >= quantity;
 
