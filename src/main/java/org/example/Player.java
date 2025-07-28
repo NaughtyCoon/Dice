@@ -15,11 +15,15 @@ public class Player {
         this.dice = dice;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void throwDice() {
         rollsHistory.add(dice.throwMe());
     }
 
-    public List<Integer> getRollHistory() {
+    public List<Integer> getRollsHistory() {
         return rollsHistory;
     }
 

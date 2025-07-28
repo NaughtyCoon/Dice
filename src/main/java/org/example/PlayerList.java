@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,12 +10,14 @@ import java.util.List;
  */
 public class PlayerList {
 
-    public static List<Player> players = List.of(
-            new Player("Alice", new Dice(), 1000),
-            new Player("Bob", new Dice(), 750),
-            new Player("Charlie", new Dice(), 500),
-            new Player("David", new Dice(), 1200),
-            new Player("Eva", new Dice(), 300)
-    );
+    public static List<Player> players = new ArrayList<>();
+
+    static {
+        players.add(new Player("Alice", new Dice(), 1000));
+        players.add(new Player("Bob", new Dice(), 750));
+        players.add(new Player("Charlie", new Dice(), 500));
+        players.add(new Player("David", new Dice(), 1200));
+        players.add(new Player("Eva", new Dice(), 300));
+    }
 
 }
